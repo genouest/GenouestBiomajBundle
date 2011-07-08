@@ -20,7 +20,6 @@ use Genouest\Bundle\BiomajBundle\Exception\DeadBiomajServerException;
 class BankManager extends ContainerAware
 {
     private $biomajUrl; // Base URL of the BioMaj server
-    // FIXME check statistic code
 
     /**
      * Constructs a BankManager object.
