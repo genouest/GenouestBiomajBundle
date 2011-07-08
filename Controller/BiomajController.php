@@ -32,7 +32,7 @@ class BiomajController extends Controller
         $choices = array();
         
         if (!empty($dbtype) && !empty($dbformat)) {
-            $bankaccessor = new BankManagerAccessor();
+            $bankaccessor = $this->get('biomaj.bank.manager.accessor');
             $choices = $bankaccessor->prepareBankListAjax($dbtype, $dbformat, $filterall, $cleanUp);
         }
         

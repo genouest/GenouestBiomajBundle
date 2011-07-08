@@ -38,6 +38,7 @@ class GenouestBiomajExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->processConfiguration($configuration, $configs);        
         
+        $container->setParameter('biomaj.server', $config['server']);
         
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('biomaj.xml');

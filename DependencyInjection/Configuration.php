@@ -34,7 +34,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('server')->end()
+                ->scalarNode('server')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
             ->end()
         ;
 
