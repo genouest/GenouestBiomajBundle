@@ -13,6 +13,8 @@
 
 namespace Genouest\Bundle\BiomajBundle\Biomaj;
 
+use Genouest\Bundle\BiomajBundle\Exception\DeadBiomajServerException;
+
 class BankManager {
     private $biomajUrl; // Base URL of the BioMaj server
     // FIXME check statistic code
@@ -165,12 +167,12 @@ class BankManager {
         
         // Check for errors
         if ($res)
-            throw new Exception('Failed to download bank list ('.$reqUrl.').');
+            throw new DeadBiomajServerException('Failed to download bank list ('.$reqUrl.').');
 
         $jsonData = json_decode($jsonData, true); // Get associative array
         
         if (empty($jsonData))
-            throw new Exception('Received wrong response from BioMAJ server ('.$reqUrl.').');
+            throw new DeadBiomajServerException('Received wrong response from BioMAJ server ('.$reqUrl.').');
         
         $bankList = array();
         
