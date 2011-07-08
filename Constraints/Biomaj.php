@@ -9,7 +9,6 @@ class Biomaj extends Constraint
 {
     public $type;
     public $format = '';
-    public $filterall = false;
     public $cleanup = true;
     public $message = 'This value should be one of the given choices';
 

@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Genouest\Bundle\DrmaaBundle\Entity\Job;
-use Genouest\Bundle\BiomajBundle\Biomaj\BankManagerAccessor;
 
 class BiomajController extends Controller
 {
@@ -15,25 +14,23 @@ class BiomajController extends Controller
     /**
      * Get JSON list of banks from biomaj server
      *
-     * @Route("/dblist/{dbtype}/{dbformat}/{filterall}/{cleanup}", name = "_biomaj_dblist", defaults = {"dbtype" = "all", "dbformat" = "all", "filterall" = false, "cleanup" = false})
+     * @Route("/dblist/{dbtype}/{dbformat}/{cleanup}", name = "_biomaj_dblist", defaults = {"dbtype" = "all", "dbformat" = "all", "cleanup" = false})
      * @Template()
      *
      * @param $dbtype string The list of dbtypes to retrieve, separated by '|', '/' must be replaced by '___'
      * @param $dbformat string The bank format to retrieve
-     * @param $filterall bool Should 'All' lies be filtered
      * @param $cleanup bool Should db names be cleanup for better display
      */
-    public function dbListAction($dbtype, $dbformat, $filterall, $cleanup)
+    public function dbListAction($dbtype, $dbformat, $cleanup)
     {
         $dbtype = explode('|', str_replace('___', '/', $dbtype));
-        $filterall = ($filterall == 'true');
         $cleanUp = ($cleanup == 'true');
         
         $choices = array();
         
         if (!empty($dbtype) && !empty($dbformat)) {
-            $bankaccessor = $this->get('biomaj.bank.manager.accessor');
-            $choices = $bankaccessor->prepareBankListAjax($dbtype, $dbformat, $filterall, $cleanUp);
+            $bankManager = $this->get('biomaj.bank.manager');
+            $choices = $bankManager->getJsonBankList($dbtype, $dbformat, $cleanUp);
         }
         
         $response = new Response($choices);

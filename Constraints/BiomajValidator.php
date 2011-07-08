@@ -20,7 +20,7 @@ class BiomajValidator extends ConstraintValidator
         }
         
         $bankaccessor = new BankManagerAccessor();
-        $choices = $this->getPathArray($bankaccessor->prepareBankList($constraint->type, $constraint->format, $constraint->filterall, $constraint->cleanup));
+        $choices = $this->getPathArray($bankaccessor->prepareBankList($constraint->type, $constraint->format, $constraint->cleanup));
 
         if (!is_array($choices)) {
             throw new ConstraintDefinitionException('The list of banks couldn\'t be generated');

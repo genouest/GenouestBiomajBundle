@@ -21,7 +21,7 @@ function reloadBiomajDbList(idfield, dbType, dbformat, filterall, cleanup) {
         types = dbType.replace('/', '___');
     }
 
-    jQuery.getJSON(urlBiomajDbListAjax + types + '/' + dbformat + '/' + filterall + '/' + cleanup, function(data) {
+    jQuery.getJSON(urlBiomajDbListAjax + types + '/' + dbformat + '/' + cleanup, function(data) {
         updateBiomajDbList(idfield, data);
     });
 }

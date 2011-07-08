@@ -6,15 +6,11 @@
 
     <parameters>
         <parameter key="biomaj.bank.manager.class">Genouest\Bundle\BiomajBundle\Biomaj\BankManager</parameter>
-        <parameter key="biomaj.bank.manager.accessor.class">Genouest\Bundle\BiomajBundle\Biomaj\BankManagerAccessor</parameter>
     </parameters>
     
     <services>
         <service id="biomaj.bank.manager" class="%biomaj.bank.manager.class%">
             <argument>%biomaj.server%</argument>
-        </service>
-        
-        <service id="biomaj.bank.manager.accessor" class="%biomaj.bank.manager.accessor.class%">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>

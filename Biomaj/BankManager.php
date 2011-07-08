@@ -13,9 +13,12 @@
 
 namespace Genouest\Bundle\BiomajBundle\Biomaj;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Genouest\Bundle\BiomajBundle\Exception\DeadBiomajServerException;
 
-class BankManager {
+class BankManager extends ContainerAware
+{
     private $biomajUrl; // Base URL of the BioMaj server
     // FIXME check statistic code
 
@@ -262,6 +265,147 @@ class BankManager {
         uksort($tab_res, 'strnatcasecmp');
         return $tab_res;
     }
+
+
+    /**
+     * Retrieve in JSON format the list of banks corresponding to the given parameters from a Biomaj server
+     
+     * @param array An array of bank types
+     * @param string The format of the bank
+     * @param bool Set to true if you want the names of banks to be cleaned up (mostly replace '_' by ' ')
+     * @return string A JSON representation of the bank list
+     */
+    public function getJsonBankList($dbtypes, $dbformat, $cleanUp) {
+        return '{"tree" : ['.$this->convertBankListToJson($this->getBankList($dbtypes, $dbformat, $cleanUp)).']}';
+    }
+  
+    /**
+     * Retrieve the list of banks corresponding to the given parameters from a Biomaj server
+     *
+     * @param array An array of bank types
+     * @param string The format of the bank
+     * @param bool Set to true if you want the names of banks to be cleaned up (mostly replace '_' by ' ')
+     * @return array The bank list
+     */
+    public function getBankList($dbtypes, $format, $cleanUp) {
+        // Use the bank manager to retrieve the list of available banks
+        $banks = $this->getBanks(array("all"), array($format), $dbtypes);
+
+        // Prepare an array of available banks
+        $bankList = array();
+        foreach($banks as $myBank) {
+            $lastUpdate = $myBank->getLastUpdate();
+            $nameDb = $myBank->getName();
+            if ($cleanUp)
+                $nameDb = $this->cleanUpBankName($nameDb);
+
+            $fileMap = $myBank->getFormatSections();
+
+            $previousSection = array();
+            foreach($fileMap[$format] as $dbsection => $path) {
+                $currentSection = array_values(array_filter(explode("/", $dbsection)));
+                $maxDepthSections = count($currentSection); // max depth from 1 to n
+                $foundNewSection = false;
+
+                // Add each found db
+                foreach ($currentSection as $posSection => $newSection) {
+                    if ($foundNewSection || !isset($previousSection[$posSection]) || ($previousSection[$posSection] != $newSection)) {
+                        // We are entering a not yet known section
+                        $foundNewSection = true;
+                        if ($maxDepthSections == $posSection+1) {
+                            // A leaf => generate the whole branch (from the last already existing node (or root if none) to the leaf)
+                            $leafTitle = $newSection;
+                            if ($cleanUp)
+                                $leafTitle = $this->cleanUpBankName($leafTitle);
+                            $newarray = array();
+                            $newarray[$path] = str_repeat("&nbsp;&nbsp;", ($posSection < 3 ? 0 : $posSection-2)).$leafTitle;
+                            $currentindice = $posSection;
+                            
+                            while ($currentindice > 0) {
+                                $currentindice--;
+                                $oldarray = $newarray;
+                                $newarray = array();
+                                $branchTitle = $currentSection[$currentindice];
+                                if ($cleanUp)
+                                    $branchTitle = $this->cleanUpBankName($branchTitle);
+                                $branchTitle = str_repeat("&nbsp;&nbsp;", $currentindice+1).$branchTitle;
+                                $newarray[$branchTitle] = $oldarray;
+                            }
+                            if (array_key_exists($nameDb, $bankList))
+                                $bankList[$nameDb] = array_merge_recursive($bankList[$nameDb], $newarray);
+                            else
+                                $bankList[$nameDb] = $newarray;
+                        }
+                    }
+                }
+                $previousSection = $currentSection;
+            }
+        }
+
+        return $bankList;
+    }
+  
+    /**
+     * Make a bank name prettier (remove strange chars)
+     *
+     * @param string A bank name to make prettier
+     * @return string The prettier bank name 
+     */
+    public function cleanUpBankName($dbName) {
+        $res = str_replace('_', ' ', $dbName);
+        
+        return $res;
+    }
+  
+    /**
+     * Convert a bank list array to JSON representation
+     *
+     * @param array A bank list
+     * @return string A JSON representation of the bank list
+     */
+    public function convertBankListToJson($list) {
+        $output = '';
+        $isFirst = true;
+        
+        foreach ($list as $path => $displayName) {
+        
+            if (!$isFirst)
+                $output .= ',';
+
+            $output .= '{';
+            $output .= '"path" : "'.$path.'",';
+            
+            if (is_array($displayName)) {
+                $output .= '"displayName" : "null",';
+                $output .= '"type" : "group",';
+                $output .= '"dbChildren" : ['.$this->convertBankListToJson($displayName).']';
+            }
+            else {
+                $output .= '"displayName" : "'.$displayName.'",';
+                $output .= '"type" : "item"';
+            }
+            
+            $output .= '}';
+            $isFirst = false;
+        }
+        
+        return $output;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Collect statistics for the given bank path (added 13/03/09)

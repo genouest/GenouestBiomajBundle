@@ -13,7 +13,8 @@
 
 namespace Genouest\Bundle\BiomajBundle\Biomaj;
 
-class BankRelease {
+class BankRelease
+{
 
     protected $name; // Release name
     protected $rootDir; // The root directory of this version

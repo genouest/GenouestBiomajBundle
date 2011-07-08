@@ -13,7 +13,8 @@
 
 namespace Genouest\Bundle\BiomajBundle\Biomaj;
 
-class Bank {
+class Bank
+{
 
     protected $name; // Name of the bank
     protected $lastUpdate; // Date and time of the last update of this bank
