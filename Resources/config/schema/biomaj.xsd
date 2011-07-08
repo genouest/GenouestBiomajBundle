@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://www.genouest.org/schema/biomaj"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.genouest.org/schema/biomaj"
+    elementFormDefault="qualified">
+
+  <xsd:element name="config" type="config" />
+
+    <xsd:complexType name="config">
+        <xsd:all>
+            <xsd:element name="server" type="xsd:string" minOccurs="1" maxOccurs="1" />
+        </xsd:all>
+    </xsd:complexType>
+</xsd:schema>
+
