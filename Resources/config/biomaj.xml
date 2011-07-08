@@ -6,6 +6,12 @@
 
     <parameters>
         <parameter key="biomaj.bank.manager.class">Genouest\Bundle\BiomajBundle\Biomaj\BankManager</parameter>
+        
+        <parameter key="biomaj.constraint.class">Genouest\Bundle\BiomajBundle\Constraints\Biomaj</parameter>
+        <parameter key="biomaj.constraint.validator.class">Genouest\Bundle\BiomajBundle\Constraints\BiomajValidator</parameter>
+        
+        <parameter key="biomaj.prefix.constraint.class">Genouest\Bundle\BiomajBundle\Constraints\BiomajPrefix</parameter>
+        <parameter key="biomaj.prefix.constraint.validator.class">Genouest\Bundle\BiomajBundle\Constraints\BiomajPrefixValidator</parameter>
     </parameters>
     
     <services>
@@ -15,5 +21,12 @@
                 <argument type="service" id="service_container" />
             </call>
         </service>
+        
+        <service id="biomaj.constraint.validator" class="%biomaj.constraint.validator.class%">
+            <argument type="service" id="service_container" />
+            <tag name="validator.constraint_validator" alias="biomaj" />
+        </service>
+        
+        <service id="biomaj.prefix.constraint.validator" class="%biomaj.prefix.constraint.validator.class%"></service>
     </services>
 </container>
