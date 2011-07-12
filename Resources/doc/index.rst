@@ -48,6 +48,7 @@ Finally, import the routes defined in the bundle.
     // ...
     _blast:
         resource: "@GenouestBiomajBundle/Controller/BiomajController.php"
+        prefix: /biomaj
         type: annotation
     // ...
 
