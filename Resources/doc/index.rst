@@ -42,7 +42,7 @@ Make sure that you also register the namespaces with the autoloader::
         // ...
     ));
 
-Finally, import the routes defined in the bundle.
+Import the routes defined in the bundle.
 
     // app/config/routing.yml
     // ...
@@ -51,6 +51,10 @@ Finally, import the routes defined in the bundle.
         prefix: /biomaj
         type: annotation
     // ...
+    
+Publish the assets in the web dir:
+
+    app/console assets:install --symlink web/
 
 
 Configuration
