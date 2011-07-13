@@ -16,6 +16,7 @@ namespace Genouest\Bundle\BiomajBundle\Constraints;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Constraint;
 
+/** @Annotation */
 class Biomaj extends Constraint
 {
     public $type;
@@ -34,12 +35,6 @@ class Biomaj extends Constraint
             throw new ConstraintDefinitionException('"type" must be specified on constraint Biomaj');
         }
         
-    }
-    
-    public function getTargets()
-    {
-    
-        return self::PROPERTY_CONSTRAINT;
     }
     
     public function validatedBy()

@@ -16,6 +16,7 @@ namespace Genouest\Bundle\BiomajBundle\Constraints;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Constraint;
 
+/** @Annotation */
 class BiomajPrefix extends Constraint
 {
     public $prefix;
@@ -32,11 +33,5 @@ class BiomajPrefix extends Constraint
             throw new ConstraintDefinitionException('"prefix" must be specified on constraint Biomaj');
         }
         
-    }
-    
-    public function getTargets()
-    {
-    
-        return self::PROPERTY_CONSTRAINT;
     }
 }
