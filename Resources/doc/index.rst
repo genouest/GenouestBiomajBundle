@@ -12,7 +12,6 @@ You can request informations based on bank types, bank file format and/or bank n
 For example, you can get the list of all the files in fasta format from the latest release of the banks of nucleic type.
 This bundle also comes with all you need to create a choice widget containing a list of bank files in a form.
 
-
 Installation
 ------------
 
