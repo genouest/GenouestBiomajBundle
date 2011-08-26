@@ -22,7 +22,7 @@ Checkout a copy of the bundle code:
 
 .. code-block:: bash
 
-    git submodule add gitolite@chili.genouest.org:sf2-biomajbundle vendor/bundles/Genouest/Bundle/BiomajBundle
+    git submodule add git@github.com:genouest/GenouestBiomajBundle.git vendor/bundles/Genouest/Bundle/BiomajBundle
     
 Then register the bundle with your kernel:
 
