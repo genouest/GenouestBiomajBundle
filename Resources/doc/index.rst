@@ -47,7 +47,7 @@ Make sure that you also register the namespaces with the autoloader:
 
 Import the routes defined in the bundle.
 
-.. code-block:: php
+.. code-block:: yaml
 
     // app/config/routing.yml
     // ...
