@@ -52,7 +52,7 @@ Import the routes defined in the bundle.
 
     // app/config/routing.yml
     // ...
-    _blast:
+    _biomaj:
         resource: "@GenouestBiomajBundle/Controller/BiomajController.php"
         prefix: /biomaj
         type: annotation
