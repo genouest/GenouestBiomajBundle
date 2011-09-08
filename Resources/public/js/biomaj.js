@@ -9,7 +9,12 @@
  *
  */
 
-function reloadBiomajDbList(idfield, dbType, dbformat, filterall, cleanup) {
+function reloadBiomajDbList(idfield, dbType, dbformat, filterall, cleanup, defaultBank) {
+    defaultBank = (typeof defaultBank == "undefined")?'':defaultBank;
+    
+    defaultBank = defaultBank.replace(/\*/g, '.*');
+    defaultBank = defaultBank.replace(/\?/g, '.');
+    
     // dbtype can be a string or an array
     if (jQuery.isArray(dbType)) {
         for (type in dbType) {
@@ -22,37 +27,41 @@ function reloadBiomajDbList(idfield, dbType, dbformat, filterall, cleanup) {
     }
 
     jQuery.getJSON(urlBiomajDbListAjax + types + '/' + dbformat + '/' + cleanup, function(data) {
-        updateBiomajDbList(idfield, data);
+        updateBiomajDbList(idfield, data, defaultBank);
     });
 }
 
-function updateBiomajDbList(idField, json) {
+function updateBiomajDbList(idField, json, defaultBank) {
     newList = '';
 
     if (json) {
         for(var i = 0; i < json.tree.length; i++) {
-            newList += createBiomajDbListTree(json.tree[i]);
+            newList += createBiomajDbListTree(json.tree[i], defaultBank);
         }
     }
 
-    if (newList.replace(/\r|\n|\r\n/g, '') != jQuery(idField).html().replace(/\r|\n|\r\n| selected=\"selected\"/g, '')) {
-        selectedPath = jQuery(idField).val();
-        newList = newList.replace("value=\""+selectedPath+"\"", "value=\""+selectedPath+"\" selected=\"selected\"");
-        jQuery(idField).html(newList);
-    }
+    jQuery(idField).html(newList);
 }
 
-function createBiomajDbListTree(json) {
+function createBiomajDbListTree(json, defaultBank) {
     opts = "";
     if (json.type == 'group') {
         opts += "<optgroup label=\"" + json.path + "\">";
         for(var i = 0; i < json.dbChildren.length; i++) {
-            opts += createBiomajDbListTree(json.dbChildren[i]);
+            opts += createBiomajDbListTree(json.dbChildren[i], defaultBank);
         }
         opts += "</optgroup>";
     }
     else if (json.type == 'item') {
-        opts += "<option value=\"" + json.path + "\">" + json.displayName + "</option>";
+        var regex = new RegExp(defaultBank);
+        
+        opts += "<option value=\"" + json.path + "\"";
+
+        if (defaultBank && regex.test(json.path)) {
+            opts += " selected=\"selected\"";
+        }
+        
+        opts += ">" + json.displayName + "</option>";
     }
 
     return opts;

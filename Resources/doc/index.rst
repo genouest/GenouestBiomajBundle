@@ -143,7 +143,7 @@ You can also simply give a blank array() of choices and use an AJAX request to l
 
     $builder->add('dbPath', 'choice', array('choices' => array()));
 
-In your template where the form is displayed, just add some code like this (twig):
+In your template where the form is displayed, just add some code like this:
 
 .. code-block:: jinja
 
@@ -152,7 +152,7 @@ In your template where the form is displayed, just add some code like this (twig
         //<![CDATA[
         
         function updateDbList() {
-            reloadBiomajDbList('#yourForm_dbPath', 'nucleic', 'blast', 'false', 'true');
+            reloadBiomajDbList('#yourForm_dbPath', 'nucleic', 'blast', 'false', 'true', '/db/bank/*/default/value');
         }
         jQuery(document).ready(updateDbList);
 
