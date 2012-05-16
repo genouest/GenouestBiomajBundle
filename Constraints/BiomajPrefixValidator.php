@@ -27,6 +27,12 @@ class BiomajPrefixValidator extends ConstraintValidator
         
         $realPath = realpath(dirname($value)); // The path may not be complete (blast path don't contain the file extension)
 
+        if ($realPath === false) {
+            $this->setMessage($constraint->messageNotFound, array('{{ value }}' => $value));
+
+            return false;
+        }
+
         if (substr($realPath, 0, strlen($constraint->prefix)) !== $constraint->prefix) {
             $this->setMessage($constraint->message, array('{{ value }}' => $value));
 

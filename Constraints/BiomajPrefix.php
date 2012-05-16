@@ -21,6 +21,7 @@ class BiomajPrefix extends Constraint
 {
     public $prefix;
     public $message = 'This value should be one of the given choices';
+    public $messageNotFound = 'The chosen bank no longer exists, please refresh the page and empty the cache of your navigator';
 
     /**
      * @inheritDoc
