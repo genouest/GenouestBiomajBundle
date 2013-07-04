@@ -1,0 +1,23 @@
+{
+    "name": "genouest/biomaj-bundle",
+    "description": "This bundle allows you to use the BioMAJ REST API from a Symfony application. For more information on BioMAJ, see http://biomaj.genouest.org/.",
+    "keywords": ["genouest", "biomaj"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "genouest",
+            "homepage": "http://www.genouest.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/symfony": ">=2.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Genouest\\Bundle\\BiomajBundle": ""
+        }
+    },
+    "target-dir" : "Genouest/Bundle/BiomajBundle"
+}
