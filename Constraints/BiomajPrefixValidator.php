@@ -19,27 +19,30 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BiomajPrefixValidator extends ConstraintValidator
 {
-    public function isValid($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (null === $value) {
-            return true;
+            return;
         }
         
         $realPath = realpath(dirname($value)); // The path may not be complete (blast path don't contain the file extension)
 
         if ($realPath === false) {
-            $this->setMessage($constraint->messageNotFound, array('{{ value }}' => $value));
+            $this->context->addViolation($constraint->messageNotFound, array(
+                '{{ value }}' => $value,
+            ));
 
-            return false;
+            return;
         }
 
         if (substr($realPath, 0, strlen($constraint->prefix)) !== $constraint->prefix) {
-            $this->setMessage($constraint->message, array('{{ value }}' => $value));
+            $this->context->addViolation($constraint->message, array(
+                '{{ value }}' => $value,
+            ));
 
-            return false;
+            return;
         }
 
-        return true;
     }
   
     protected function getPathArray($array)

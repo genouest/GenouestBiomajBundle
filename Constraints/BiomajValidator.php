@@ -29,10 +29,10 @@ class BiomajValidator extends ConstraintValidator
         $this->container = $container;
     }
 
-    public function isValid($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (null === $value) {
-            return true;
+            return;
         }
         
         $bankManager = $this->container->get('biomaj.bank.manager');
@@ -43,12 +43,12 @@ class BiomajValidator extends ConstraintValidator
         }
 
         if (!in_array($value, $choices, true)) {
-            $this->setMessage($constraint->message, array('{{ value }}' => $value));
+            $this->context->addViolation($constraint->message, array(
+                '{{ value }}' => $value,
+            ));
 
-            return false;
+            return;
         }
-
-        return true;
     }
   
     protected function getPathArray($array)
