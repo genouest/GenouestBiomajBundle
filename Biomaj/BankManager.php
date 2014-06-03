@@ -49,7 +49,7 @@ class BankManager extends ContainerAware
      * 
      * @param name The name of the asked bank
      * @param format The format needed
-     * @returns a Bank object or NULL if the Bank was not found.
+     * @return a Bank object or NULL if the Bank was not found.
      */
     public function getDB($name, $format = "") {
         $banks = $this->getListDB(array($name), $format);
@@ -98,7 +98,7 @@ class BankManager extends ContainerAware
      * Get a list of all Bank names and versions of the given type
      * 
      * @param type The type asked
-     * @returns An array: Bank name (string) => version (string)
+     * @return An array: Bank name (string) => version (string)
      */
     public function getBankNames($type) {
         // Download bank list

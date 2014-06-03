@@ -40,36 +40,36 @@ class Bank
     }
 
     /**
-     * Returns the bank name
+     * return the bank name
      *
-     * @returns the bank name
+     * @return the bank name
      */
     public function getName(){
         return $this->name;
     }
 
     /**
-     * Returns the bank's type
+     * return the bank's type
      *
-     * @returns the bank's type
+     * @return the bank's type
      */
     public function getType(){
         return $this->type;
     }
 
     /**
-     * Returns the bank's current release
+     * return the bank's current release
      *
-     * @returns the bank's current release
+     * @return the bank's current release
      */
     public function getCurrentRelease(){
         return $this->currentRelease;
     }
 
     /**
-     * Returns the last update datetime
+     * return the last update datetime
      *
-     * @returns the last update datetime
+     * @return the last update datetime
      */
     public function getLastUpdate(){
         return $this->lastUpdate;
@@ -78,17 +78,17 @@ class Bank
     /**
      * Get the list of available releases including the latest version.
      * 
-     * @returns an array: [$version => BankRelease object]
+     * @return an array: [$version => BankRelease object]
      */
     public function getReleases() {
         return ($this->releases);
     }
 
     /**
-     * Returns the production directory of this bank.
+     * return the production directory of this bank.
      *
      * @param release Specify a release number. Default is current release.
-     * @returns the production directory of the asked release
+     * @return the production directory of the asked release
      */
     public function getDir($release = ""){
         if (($release = "") || (!array_key_exists($release, $this->releases)))
@@ -101,11 +101,11 @@ class Bank
     }
 
     /**
-     * Returns the directory of a given format of this bank
+     * return the directory of a given format of this bank
      *
      * @param format The requested format
      * @param release Specify a release number. Default is current release.
-     * @returns the directory of a given format of the asked release
+     * @return the directory of a given format of the asked release
      */
     public function getFormatDir($format, $release = ""){
         if ($format == "")
@@ -115,20 +115,20 @@ class Bank
     }
 
     /**
-     * Returns the flat directory of the this bank
+     * return the flat directory of the this bank
      *
      * @param release Specify a release number. Default is current release.
-     * @returns the flat directory of the asked release
+     * @return the flat directory of the asked release
      */
     public function getFlatDir($release = ""){
         return $this->getFormatDir("flat", $release);
     }
 
     /**
-     * Returns the list of available formats for this bank
+     * return the list of available formats for this bank
      *
      * @param release Specify a release number. Default is current release.
-     * @returns the available formats for the asked release (array of strings)
+     * @return the available formats for the asked release (array of strings)
      */
     public function getFormats($release = ""){
         if (($release = "") || (!array_key_exists($release, $this->releases)))
@@ -140,10 +140,10 @@ class Bank
     }
 
     /**
-     * Returns the list of sections for each format
+     * return the list of sections for each format
      *
      * @param release Specify a release number. Default is current release.
-     * @returns the available formats and their sections for the asked release (array('fasta' => array('Section1' => array('/db/..../xx.fasta'))))
+     * @return the available formats and their sections for the asked release (array('fasta' => array('Section1' => array('/db/..../xx.fasta'))))
      */
     public function getFormatSections($release = ""){
         if (($release = "") || (!array_key_exists($release, $this->releases)))
@@ -159,7 +159,7 @@ class Bank
      * Tells if the bank is of the given type (searches in subtypes)
      *
      * @param type the requested type
-     * @returns true if the bank is of the given type, false otherwise.
+     * @return true if the bank is of the given type, false otherwise.
      */
     public function isOfType($type) {
         return (strpos($this->type, $type) !== FALSE);
@@ -168,7 +168,7 @@ class Bank
     /**
      * Tells if the bank is of nucleic type (searches in subtypes)
      *
-     * @returns true if the bank is nucleic, false otherwise.
+     * @return true if the bank is nucleic, false otherwise.
      */
     public function isNucleic() {
         return $this->isOfType('nucleic');
@@ -177,7 +177,7 @@ class Bank
     /**
      * Tells if the bank is of proteic type (searches in subtypes)
      *
-     * @returns true if the bank is proteic, false otherwise.
+     * @return true if the bank is proteic, false otherwise.
      */
     public function isProteic() {
         return $this->isOfType('proteic');
@@ -186,7 +186,7 @@ class Bank
     /**
      * Tells if the bank is of genomic type (searches in subtypes)
      *
-     * @returns true if the bank is genomic, false otherwise.
+     * @return true if the bank is genomic, false otherwise.
      */
     public function isGenomic() {
         return $this->isOfType('genome');
